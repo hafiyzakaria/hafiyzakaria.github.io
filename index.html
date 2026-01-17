@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Name</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Georgia, serif;
+            line-height: 1.6;
+            max-width: 650px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            color: #000;
+            background: #fff;
+        }
+        
+        header {
+            margin-bottom: 40px;
+        }
+        
+        h1 {
+            font-size: 1.4em;
+            font-weight: normal;
+            margin-bottom: 20px;
+        }
+        
+        h2 {
+            font-size: 1.2em;
+            margin: 40px 0 15px 0;
+            font-weight: normal;
+        }
+        
+        h3 {
+            font-size: 1em;
+            margin: 20px 0 10px 0;
+            font-weight: bold;
+        }
+        
+        p {
+            margin-bottom: 15px;
+        }
+        
+        a {
+            color: #00f;
+            text-decoration: underline;
+        }
+        
+        a:visited {
+            color: #609;
+        }
+        
+        a:hover {
+            color: #f00;
+        }
+        
+        ul {
+            margin: 15px 0 15px 30px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        dl {
+            margin: 20px 0;
+        }
+        
+        dt {
+            font-weight: bold;
+            margin-top: 15px;
+        }
+        
+        dd {
+            margin-left: 30px;
+            margin-bottom: 10px;
+        }
+        
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 20px 0;
+        }
+        
+        .book-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin: 30px 0;
+        }
+        
+        .book {
+            text-align: left;
+        }
+        
+        .book img {
+            width: 150px;
+            margin-bottom: 10px;
+        }
+        
+        .intro {
+            font-size: 1.05em;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1><a href="/">Your Name</a></h1>
+    </header>
+
+    <main>
+        <h2>Me in 10 seconds</h2>
+        <div class="intro">
+            <p>
+                I'm a <a href="#">designer</a>, 
+                <a href="#">writer</a>, and 
+                <a href="#">creator</a>.
+            </p>
+            <p>
+                I'm a <a href="#">lifelong learner</a>, 
+                curious about everything, and 
+                passionate about <a href="#">simplicity</a>.
+            </p>
+            <p>
+                Born in City, now living in Another City.
+            </p>
+        </div>
+
+        <h2><a href="/about">Me in 10 minutes?</a></h2>
+        <p>See my <a href="/about">"about" page</a>.</p>
+
+        <h2><a href="/now">What am I doing now?</a></h2>
+        <p>See my <a href="/now">"now" page</a>.</p>
+
+        <h2><a href="/contact">Contact me</a></h2>
+        <p>I love hearing from people. <a href="/contact">Say hello</a>.</p>
+
+        <h2>Projects</h2>
+        <dl>
+            <dt><a href="#">Project One</a></dt>
+            <dd>A brief description of what this project is about and why it matters.</dd>
+            
+            <dt><a href="#">Project Two</a></dt>
+            <dd>Another interesting thing I've built or am working on.</dd>
+            
+            <dt><a href="#">Project Three</a></dt>
+            <dd>Something else worth sharing with the world.</dd>
+        </dl>
+
+        <h2>Newest Articles <a href="/blog">see all</a></h2>
+        <ul>
+            <li><a href="#">Why I started writing every day</a></li>
+            <li><a href="#">The power of saying no</a></li>
+            <li><a href="#">What I learned from failure</a></li>
+            <li><a href="#">Building things that matter</a></li>
+        </ul>
+
+        <h2>Popular Articles <a href="/blog">see all</a></h2>
+        <ul>
+            <li><a href="#">Start with why</a></li>
+            <li><a href="#">Less is more</a></li>
+            <li><a href="#">How to think clearly</a></li>
+        </ul>
+    </main>
+</body>
+</html>
