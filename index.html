@@ -253,38 +253,12 @@
             margin-bottom: 0;
         }
 
-        /* Blog */
-        .blog-list {
-            list-style: none;
-        }
-
-        .blog-list li {
-            padding: 12px 0;
-            border-bottom: 1px solid #f0f0f0;
-            display: flex;
-            align-items: baseline;
-            gap: 20px;
-        }
-
-        .blog-list li:last-child {
-            border-bottom: none;
-        }
-
-        .blog-list .date {
-            color: #999;
-            font-size: 0.8em;
-            flex-shrink: 0;
-            min-width: 90px;
-        }
-
-        .blog-list a {
-            font-size: 0.95em;
+        /* Contact icons */
+        .icon {
+            width: 14px;
+            height: 14px;
+            vertical-align: -2px;
             color: #1a1a2e;
-            font-weight: 500;
-        }
-
-        .blog-list a:hover {
-            color: #4a6cf7;
         }
 
         /* Footer */
@@ -324,15 +298,6 @@
 
             section {
                 margin-bottom: 48px;
-            }
-
-            .blog-list li {
-                flex-direction: column;
-                gap: 2px;
-            }
-
-            .blog-list .date {
-                min-width: auto;
             }
 
             footer {
@@ -454,20 +419,15 @@
             </div>
         </section>
 
-        <section id="blog">
-            <h2>Blog</h2>
-            <ul class="blog-list">
-                <li><span class="date">2026-03-01</span> <a href="#">Why I started writing every day</a></li>
-                <li><span class="date">2026-02-15</span> <a href="#">The power of saying no</a></li>
-                <li><span class="date">2026-02-01</span> <a href="#">What I learned from failure</a></li>
-                <li><span class="date">2026-01-15</span> <a href="#">Building things that matter</a></li>
-            </ul>
+        <section id="contact">
+            <h2>Contact</h2>
+            <p><a href="mailto:nazirul@hafiy.my"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4L12 13 2 4"/></svg> nazirul@hafiy.my</a></p>
+            <p><a href="https://www.linkedin.com/in/hafiy/" target="_blank"><svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 110-4.12 2.06 2.06 0 010 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/></svg> LinkedIn</a></p>
         </section>
     </main>
 
     <footer>
         <span>&copy; 2026 NAZIRUL HAFIY</span>
-        <span><a href="mailto:nazirul@hafiy.my">nazirul@hafiy.my</a> &middot; <a href="https://www.linkedin.com/in/hafiy/" target="_blank">LinkedIn</a></span>
     </footer>
 
     <script>
