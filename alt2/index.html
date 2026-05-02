@@ -487,40 +487,35 @@
     /* Experience — Timeline */
     .experience-list {
       position: relative;
-      padding-left: 52px;
-    }
-
-    .experience-list::before {
-      content: '';
-      position: absolute;
-      left: 25px;
-      top: 0;
-      bottom: 0;
-      width: 2px;
-      background: linear-gradient(
-        to bottom,
-        transparent 0%,
-        var(--color-border) 24px,
-        var(--color-border) calc(100% - 24px),
-        transparent 100%
-      );
-      border-radius: 2px;
-      z-index: 0;
     }
 
     .company-group {
       position: relative;
     }
 
+    /* Vertical line inside each card */
+    .company-group::before {
+      content: '';
+      position: absolute;
+      left: 16px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--color-border);
+      border-radius: 2px;
+      z-index: 0;
+    }
+
     .role-item {
       position: relative;
     }
 
+    /* Dot on the line, centered on role-title */
     .role-item::before {
       content: '';
       position: absolute;
-      left: -32px;
-      top: 52px;
+      left: -21px;
+      top: 54px;
       width: 12px;
       height: 12px;
       border-radius: 50%;
@@ -543,17 +538,13 @@
     }
 
     @media (max-width: 768px) {
-      .experience-list {
-        padding-left: 40px;
-      }
-
-      .experience-list::before {
-        left: 19px;
+      .company-group::before {
+        left: 12px;
       }
 
       .role-item::before {
-        left: -26px;
-        top: 44px;
+        left: -16px;
+        top: 48px;
         width: 10px;
         height: 10px;
       }
