@@ -462,10 +462,13 @@
     /* Touch/all: expand via scroll JS */
     .role-details.open {
       max-height: 600px;
+      opacity: 1;
       margin-top: var(--space-md);
     }
 
     .role-details.open li.bullet-visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
       transition: opacity 0.3s ease, transform 0.3s ease;
     }
 
@@ -1141,7 +1144,7 @@
       }
     });
 
-    // Progressive scroll expand/collapse for role items (all devices)
+    // Binary scroll expand/collapse for role items (all devices)
     {
       const roleItems = document.querySelectorAll('.role-item');
 
@@ -1151,32 +1154,18 @@
           const details = item.querySelector('.role-details');
           if (!details) return;
           const bullets = details.querySelectorAll('li');
-          const ratio = entry.intersectionRatio;
 
-          if (ratio > 0.15) {
-            // Expand — progressive opacity on the details container
+          if (entry.isIntersecting) {
             details.classList.add('open');
-            details.style.opacity = Math.min(1, (ratio - 0.15) / 0.45);
-
-            // Stagger bullets based on ratio
             bullets.forEach((li, i) => {
-              const bulletThreshold = 0.2 + (i * 0.1);
-              if (ratio >= bulletThreshold) {
-                if (!li.classList.contains('bullet-visible')) {
-                  li.classList.add('bullet-visible');
-                  li.style.opacity = '1';
-                  li.style.transform = 'translateY(0) scale(1)';
-                }
-              } else {
-                li.classList.remove('bullet-visible');
-                li.style.opacity = '0';
-                li.style.transform = 'translateY(24px) scale(0.97)';
-              }
+              setTimeout(() => {
+                li.classList.add('bullet-visible');
+                li.style.opacity = '1';
+                li.style.transform = 'translateY(0) scale(1)';
+              }, i * 120);
             });
           } else {
-            // Collapse when scrolled away
             details.classList.remove('open');
-            details.style.opacity = '0';
             bullets.forEach(li => {
               li.classList.remove('bullet-visible');
               li.style.opacity = '0';
@@ -1185,8 +1174,8 @@
           }
         });
       }, {
-        threshold: [0, 0.1, 0.15, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
-        rootMargin: '0px 0px -40px 0px'
+        threshold: 0.2,
+        rootMargin: '0px 0px -60px 0px'
       });
 
       roleItems.forEach(item => {
