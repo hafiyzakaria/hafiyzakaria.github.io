@@ -672,10 +672,18 @@
     .contact-arrow {
       transition: all 0.3s ease;
       color: rgba(255,255,255,0.4);
-      font-size: 1.5rem;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      /* Prevent emoji rendering of arrow on iOS */
-      -webkit-text-size-adjust: 100%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+    }
+    .contact-arrow svg {
+      width: 18px;
+      height: 18px;
+      display: block;
+      flex-shrink: 0;
     }
 
     .contact-label {
