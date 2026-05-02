@@ -440,36 +440,36 @@
       transition: max-height 0.4s ease, opacity 0.3s ease, margin-top 0.3s ease;
     }
 
-    /* Desktop: expand on hover OR scroll-active */
+    /* Desktop: expand on hover */
     @media (hover: hover) and (pointer: fine) {
       .role-item:hover .role-details,
       .role-details.open {
         max-height: 600px;
+        opacity: 1;
         margin-top: var(--space-md);
       }
 
-      .role-item:hover .role-details {
-        opacity: 1 !important;
-      }
-
-      .role-item:hover .role-details li {
-        opacity: 1 !important;
-        transform: translateY(0) scale(1) !important;
+      .role-item:hover .role-details li,
+      .role-details.open li {
+        opacity: 1;
+        transform: translateY(0) scale(1);
         transition: opacity 0.3s ease, transform 0.3s ease;
       }
     }
 
-    /* Touch/all: expand via scroll JS */
-    .role-details.open {
-      max-height: 600px;
-      opacity: 1;
-      margin-top: var(--space-md);
-    }
+    /* Touch: expand via JS (scroll-triggered) */
+    @media (hover: none), (pointer: coarse) {
+      .role-details.open {
+        max-height: 600px;
+        opacity: 1;
+        margin-top: var(--space-md);
+      }
 
-    .role-details.open li.bullet-visible {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-      transition: opacity 0.3s ease, transform 0.3s ease;
+      .role-details.open li.bullet-visible {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+      }
     }
 
     .role-details ul {
@@ -1144,9 +1144,11 @@
       }
     });
 
-    // Binary scroll expand/collapse for role items (all devices)
-    {
+    // Auto-expand role items on scroll (touch devices only)
+    // Expands when scrolled into view, auto-collapses after 3s
+    if (window.matchMedia('(hover: none)').matches || window.matchMedia('(pointer: coarse)').matches) {
       const roleItems = document.querySelectorAll('.role-item');
+      const collapseTimers = new Map();
 
       const roleObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -1156,20 +1158,46 @@
           const bullets = details.querySelectorAll('li');
 
           if (entry.isIntersecting) {
+            // Clear any pending collapse
+            if (collapseTimers.has(item)) {
+              clearTimeout(collapseTimers.get(item));
+              collapseTimers.delete(item);
+            }
+
+            // Expand
+            item.classList.add('open');
             details.classList.add('open');
+
+            // Stagger bullet reveal
             bullets.forEach((li, i) => {
+              li.classList.remove('bullet-visible');
+              void li.offsetWidth;
               setTimeout(() => {
                 li.classList.add('bullet-visible');
-                li.style.opacity = '1';
-                li.style.transform = 'translateY(0) scale(1)';
-              }, i * 120);
+              }, i * 180);
             });
+
+            // Auto-collapse after 3 seconds
+            const timer = setTimeout(() => {
+              details.classList.remove('open');
+              item.classList.remove('open');
+              bullets.forEach(li => {
+                li.classList.remove('bullet-visible');
+              });
+              collapseTimers.delete(item);
+            }, 3000);
+            collapseTimers.set(item, timer);
+
           } else {
+            // Scrolled away — collapse immediately
+            if (collapseTimers.has(item)) {
+              clearTimeout(collapseTimers.get(item));
+              collapseTimers.delete(item);
+            }
             details.classList.remove('open');
+            item.classList.remove('open');
             bullets.forEach(li => {
               li.classList.remove('bullet-visible');
-              li.style.opacity = '0';
-              li.style.transform = 'translateY(24px) scale(0.97)';
             });
           }
         });
