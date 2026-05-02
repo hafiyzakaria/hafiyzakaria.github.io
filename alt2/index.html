@@ -408,7 +408,7 @@
     }
 
     /* Desktop: expand on hover */
-    @media (hover: hover) {
+    @media (hover: hover) and (pointer: fine) {
       .role-item:hover .role-details,
       .role-details.open {
         max-height: 600px;
@@ -425,7 +425,7 @@
     }
 
     /* Touch: expand via JS (scroll-triggered) */
-    @media (hover: none) {
+    @media (hover: none), (pointer: coarse) {
       .role-details.open {
         max-height: 600px;
         opacity: 1;
@@ -1029,7 +1029,7 @@
     });
 
     // Auto-expand role items on scroll (touch devices only)
-    if (!window.matchMedia('(hover: hover)').matches) {
+    if (window.matchMedia('(hover: none)').matches || window.matchMedia('(pointer: coarse)').matches) {
       const roleItems = document.querySelectorAll('.role-item');
       const roleObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
