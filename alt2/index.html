@@ -521,7 +521,7 @@
       content: '';
       position: absolute;
       left: -64px;
-      top: 52px;
+      top: 22px;
       width: 12px;
       height: 12px;
       border-radius: 50%;
@@ -537,28 +537,6 @@
       box-shadow: 0 0 0 4px var(--color-accent-light);
     }
 
-    /* Connector line: dot → card edge */
-    .role-item::after {
-      content: '';
-      position: absolute;
-      left: -52px;
-      top: 57px;
-      width: 20px;
-      height: 2px;
-      background: var(--color-border);
-      z-index: 0;
-    }
-
-    .role-item:last-child::before {
-      width: 10px;
-      height: 10px;
-      border-width: 4px;
-    }
-
-    .role-item:last-child::after {
-      top: 56px;
-    }
-
     @media (max-width: 768px) {
       .experience-list {
         padding-left: 40px;
@@ -570,25 +548,9 @@
 
       .role-item::before {
         left: -49px;
-        top: 44px;
+        top: 20px;
         width: 10px;
         height: 10px;
-      }
-
-      .role-item::after {
-        left: -39px;
-        top: 48px;
-        width: 15px;
-        height: 2px;
-      }
-
-      .role-item:last-child::before {
-        width: 8px;
-        height: 8px;
-      }
-
-      .role-item:last-child::after {
-        top: 47px;
       }
     }
 
