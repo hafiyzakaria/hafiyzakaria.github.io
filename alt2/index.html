@@ -512,13 +512,17 @@
       position: relative;
     }
 
-    .company-group::before {
+    .role-item {
+      position: relative;
+    }
+
+    .role-item::before {
       content: '';
       position: absolute;
       left: -33px;
-      top: 36px;
-      width: 14px;
-      height: 14px;
+      top: 52px;
+      width: 12px;
+      height: 12px;
       border-radius: 50%;
       background: var(--color-accent);
       border: 3px solid var(--color-background);
@@ -527,9 +531,15 @@
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-    .company-group:hover::before {
+    .role-item:hover::before {
       transform: scale(1.25);
       box-shadow: 0 0 0 4px var(--color-accent-light);
+    }
+
+    .role-item:last-child::before {
+      width: 10px;
+      height: 10px;
+      border-width: 4px;
     }
 
     @media (max-width: 768px) {
@@ -541,11 +551,16 @@
         left: 19px;
       }
 
-      .company-group::before {
+      .role-item::before {
         left: -26px;
-        top: 28px;
-        width: 12px;
-        height: 12px;
+        top: 44px;
+        width: 10px;
+        height: 10px;
+      }
+
+      .role-item:last-child::before {
+        width: 8px;
+        height: 8px;
       }
     }
 
