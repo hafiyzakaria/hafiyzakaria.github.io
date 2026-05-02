@@ -484,6 +484,71 @@
       }
     }
 
+    /* Experience — Timeline */
+    .experience-list {
+      position: relative;
+      padding-left: 52px;
+    }
+
+    .experience-list::before {
+      content: '';
+      position: absolute;
+      left: 25px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        var(--color-border) 24px,
+        var(--color-border) calc(100% - 24px),
+        transparent 100%
+      );
+      border-radius: 2px;
+      z-index: 0;
+    }
+
+    .company-group {
+      position: relative;
+    }
+
+    .company-group::before {
+      content: '';
+      position: absolute;
+      left: -33px;
+      top: 36px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--color-accent);
+      border: 3px solid var(--color-background);
+      box-shadow: 0 0 0 1px var(--color-accent-light);
+      z-index: 1;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .company-group:hover::before {
+      transform: scale(1.25);
+      box-shadow: 0 0 0 4px var(--color-accent-light);
+    }
+
+    @media (max-width: 768px) {
+      .experience-list {
+        padding-left: 40px;
+      }
+
+      .experience-list::before {
+        left: 19px;
+      }
+
+      .company-group::before {
+        left: -26px;
+        top: 28px;
+        width: 12px;
+        height: 12px;
+      }
+    }
+
     /* Projects */
     .projects-section {
       background: var(--color-surface-alt);
