@@ -492,24 +492,6 @@
       background: var(--color-surface-alt);
     }
 
-    .project-card::before {
-      content: 'Visit tracker →';
-      position: absolute;
-      bottom: var(--space-lg);
-      right: var(--space-lg);
-      font-size: 0.8125rem;
-      font-weight: 600;
-      color: var(--color-accent);
-      opacity: 0;
-      transform: translateX(8px);
-      transition: all 0.3s ease;
-    }
-
-    .project-card:hover::before {
-      opacity: 1;
-      transform: translateX(0);
-    }
-
     .project-card::after {
       content: '';
       position: absolute;
@@ -527,12 +509,8 @@
       transform: scaleX(1);
     }
 
-    /* On touch devices, always show project card CTA */
+    /* On touch devices, always show bottom accent bar */
     @media (hover: none) {
-      .project-card::before {
-        opacity: 1;
-        transform: translateX(0);
-      }
       .project-card::after {
         transform: scaleX(1);
       }
