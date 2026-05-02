@@ -440,36 +440,33 @@
       transition: max-height 0.4s ease, opacity 0.3s ease, margin-top 0.3s ease;
     }
 
-    /* Desktop: expand on hover */
+    /* Desktop: expand on hover OR scroll-active */
     @media (hover: hover) and (pointer: fine) {
       .role-item:hover .role-details,
       .role-details.open {
         max-height: 600px;
-        opacity: 1;
         margin-top: var(--space-md);
       }
 
-      .role-item:hover .role-details li,
-      .role-details.open li {
-        opacity: 1;
-        transform: translateY(0) scale(1);
+      .role-item:hover .role-details {
+        opacity: 1 !important;
+      }
+
+      .role-item:hover .role-details li {
+        opacity: 1 !important;
+        transform: translateY(0) scale(1) !important;
         transition: opacity 0.3s ease, transform 0.3s ease;
       }
     }
 
-    /* Touch: expand via JS (scroll-triggered) */
-    @media (hover: none), (pointer: coarse) {
-      .role-details.open {
-        max-height: 600px;
-        opacity: 1;
-        margin-top: var(--space-md);
-      }
+    /* Touch/all: expand via scroll JS */
+    .role-details.open {
+      max-height: 600px;
+      margin-top: var(--space-md);
+    }
 
-      .role-details.open li.bullet-visible {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-        transition: opacity 0.3s ease, transform 0.3s ease;
-      }
+    .role-details.open li.bullet-visible {
+      transition: opacity 0.3s ease, transform 0.3s ease;
     }
 
     .role-details ul {
@@ -1144,35 +1141,52 @@
       }
     });
 
-    // Auto-expand role items on scroll (touch devices only)
-    if (window.matchMedia('(hover: none)').matches || window.matchMedia('(pointer: coarse)').matches) {
+    // Progressive scroll expand/collapse for role items (all devices)
+    {
       const roleItems = document.querySelectorAll('.role-item');
+
       const roleObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            const item = entry.target;
-            const details = item.querySelector('.role-details');
-            const bullets = details.querySelectorAll('li');
+          const item = entry.target;
+          const details = item.querySelector('.role-details');
+          if (!details) return;
+          const bullets = details.querySelectorAll('li');
+          const ratio = entry.intersectionRatio;
 
-            // Expand
-            item.classList.add('open');
+          if (ratio > 0.15) {
+            // Expand — progressive opacity on the details container
             details.classList.add('open');
+            details.style.opacity = Math.min(1, (ratio - 0.15) / 0.45);
 
-            // Stagger bullet reveal
+            // Stagger bullets based on ratio
             bullets.forEach((li, i) => {
-              li.classList.remove('bullet-visible');
-              void li.offsetWidth;
-              setTimeout(() => {
-                li.classList.add('bullet-visible');
-              }, i * 180);
+              const bulletThreshold = 0.2 + (i * 0.1);
+              if (ratio >= bulletThreshold) {
+                if (!li.classList.contains('bullet-visible')) {
+                  li.classList.add('bullet-visible');
+                  li.style.opacity = '1';
+                  li.style.transform = 'translateY(0) scale(1)';
+                }
+              } else {
+                li.classList.remove('bullet-visible');
+                li.style.opacity = '0';
+                li.style.transform = 'translateY(24px) scale(0.97)';
+              }
             });
-
-            roleObserver.unobserve(item);
+          } else {
+            // Collapse when scrolled away
+            details.classList.remove('open');
+            details.style.opacity = '0';
+            bullets.forEach(li => {
+              li.classList.remove('bullet-visible');
+              li.style.opacity = '0';
+              li.style.transform = 'translateY(24px) scale(0.97)';
+            });
           }
         });
       }, {
-        threshold: 0.2,
-        rootMargin: '0px 0px -60px 0px'
+        threshold: [0, 0.1, 0.15, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
+        rootMargin: '0px 0px -40px 0px'
       });
 
       roleItems.forEach(item => {
