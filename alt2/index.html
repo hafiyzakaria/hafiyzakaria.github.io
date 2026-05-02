@@ -516,10 +516,11 @@
       position: relative;
     }
 
+    /* Dot on the timeline line */
     .role-item::before {
       content: '';
       position: absolute;
-      left: -32px;
+      left: -64px;
       top: 52px;
       width: 12px;
       height: 12px;
@@ -527,7 +528,7 @@
       background: var(--color-accent);
       border: 3px solid var(--color-background);
       box-shadow: 0 0 0 1px var(--color-accent-light);
-      z-index: 1;
+      z-index: 2;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
@@ -536,10 +537,26 @@
       box-shadow: 0 0 0 4px var(--color-accent-light);
     }
 
+    /* Connector line: dot → card edge */
+    .role-item::after {
+      content: '';
+      position: absolute;
+      left: -52px;
+      top: 57px;
+      width: 20px;
+      height: 2px;
+      background: var(--color-border);
+      z-index: 0;
+    }
+
     .role-item:last-child::before {
       width: 10px;
       height: 10px;
       border-width: 4px;
+    }
+
+    .role-item:last-child::after {
+      top: 56px;
     }
 
     @media (max-width: 768px) {
@@ -552,15 +569,26 @@
       }
 
       .role-item::before {
-        left: -26px;
+        left: -49px;
         top: 44px;
         width: 10px;
         height: 10px;
       }
 
+      .role-item::after {
+        left: -39px;
+        top: 48px;
+        width: 15px;
+        height: 2px;
+      }
+
       .role-item:last-child::before {
         width: 8px;
         height: 8px;
+      }
+
+      .role-item:last-child::after {
+        top: 47px;
       }
     }
 
