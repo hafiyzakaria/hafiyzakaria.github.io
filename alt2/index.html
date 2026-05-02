@@ -1144,61 +1144,72 @@
       }
     });
 
-    // Auto-expand role items on scroll (touch devices only)
-    // Expands when scrolled into view, auto-collapses after 3s
-    if (window.matchMedia('(hover: none)').matches || window.matchMedia('(pointer: coarse)').matches) {
-      const roleItems = document.querySelectorAll('.role-item');
-      const collapseTimers = new Map();
+    // Auto-expand with 30s auto-collapse (all devices)
+    const roleItems = document.querySelectorAll('.role-item');
+    const collapseTimers = new Map();
 
+    function expandRole(item) {
+      const details = item.querySelector('.role-details');
+      if (!details) return;
+      const bullets = details.querySelectorAll('li');
+
+      // Clear any pending collapse
+      if (collapseTimers.has(item)) {
+        clearTimeout(collapseTimers.get(item));
+        collapseTimers.delete(item);
+      }
+
+      item.classList.add('open');
+      details.classList.add('open');
+
+      bullets.forEach((li, i) => {
+        li.classList.remove('bullet-visible');
+        void li.offsetWidth;
+        setTimeout(() => {
+          li.classList.add('bullet-visible');
+        }, i * 180);
+      });
+
+      // Auto-collapse after 30 seconds
+      const timer = setTimeout(() => {
+        collapseRole(item);
+      }, 30000);
+      collapseTimers.set(item, timer);
+    }
+
+    function collapseRole(item) {
+      const details = item.querySelector('.role-details');
+      if (!details) return;
+      const bullets = details.querySelectorAll('li');
+
+      if (collapseTimers.has(item)) {
+        clearTimeout(collapseTimers.get(item));
+        collapseTimers.delete(item);
+      }
+
+      details.classList.remove('open');
+      item.classList.remove('open');
+      bullets.forEach(li => {
+        li.classList.remove('bullet-visible');
+      });
+    }
+
+    // Desktop: expand on hover
+    if (window.matchMedia('(hover: hover)').matches && window.matchMedia('(pointer: fine)').matches) {
+      roleItems.forEach(item => {
+        item.addEventListener('mouseenter', () => expandRole(item));
+      });
+    }
+
+    // Touch: expand on scroll into view
+    if (window.matchMedia('(hover: none)').matches || window.matchMedia('(pointer: coarse)').matches) {
       const roleObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           const item = entry.target;
-          const details = item.querySelector('.role-details');
-          if (!details) return;
-          const bullets = details.querySelectorAll('li');
-
           if (entry.isIntersecting) {
-            // Clear any pending collapse
-            if (collapseTimers.has(item)) {
-              clearTimeout(collapseTimers.get(item));
-              collapseTimers.delete(item);
-            }
-
-            // Expand
-            item.classList.add('open');
-            details.classList.add('open');
-
-            // Stagger bullet reveal
-            bullets.forEach((li, i) => {
-              li.classList.remove('bullet-visible');
-              void li.offsetWidth;
-              setTimeout(() => {
-                li.classList.add('bullet-visible');
-              }, i * 180);
-            });
-
-            // Auto-collapse after 3 seconds
-            const timer = setTimeout(() => {
-              details.classList.remove('open');
-              item.classList.remove('open');
-              bullets.forEach(li => {
-                li.classList.remove('bullet-visible');
-              });
-              collapseTimers.delete(item);
-            }, 3000);
-            collapseTimers.set(item, timer);
-
+            expandRole(item);
           } else {
-            // Scrolled away — collapse immediately
-            if (collapseTimers.has(item)) {
-              clearTimeout(collapseTimers.get(item));
-              collapseTimers.delete(item);
-            }
-            details.classList.remove('open');
-            item.classList.remove('open');
-            bullets.forEach(li => {
-              li.classList.remove('bullet-visible');
-            });
+            collapseRole(item);
           }
         });
       }, {
