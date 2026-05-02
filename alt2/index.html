@@ -1144,7 +1144,7 @@
       }
     });
 
-    // Auto-expand with 30s auto-collapse (all devices)
+    // Shared expand/collapse
     const roleItems = document.querySelectorAll('.role-item');
     const collapseTimers = new Map();
 
@@ -1169,12 +1169,6 @@
           li.classList.add('bullet-visible');
         }, i * 180);
       });
-
-      // Auto-collapse after 8 seconds
-      const timer = setTimeout(() => {
-        collapseRole(item);
-      }, 8000);
-      collapseTimers.set(item, timer);
     }
 
     function collapseRole(item) {
@@ -1194,31 +1188,38 @@
       });
     }
 
-    // Desktop: expand on hover
+    // Desktop: expand on hover with auto-collapse
     if (window.matchMedia('(hover: hover)').matches && window.matchMedia('(pointer: fine)').matches) {
       roleItems.forEach(item => {
-        item.addEventListener('mouseenter', () => expandRole(item));
+        item.addEventListener('mouseenter', () => {
+          expandRole(item);
+          // Auto-collapse after 8s
+          const timer = setTimeout(() => collapseRole(item), 8000);
+          collapseTimers.set(item, timer);
+        });
       });
     }
 
-    // Touch: expand on scroll into view
+    // Touch: tap to expand, tap to collapse, no auto-collapse
     if (window.matchMedia('(hover: none)').matches || window.matchMedia('(pointer: coarse)').matches) {
-      const roleObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          const item = entry.target;
-          if (entry.isIntersecting) {
-            expandRole(item);
-          } else {
+      roleItems.forEach(item => {
+        item.addEventListener('click', () => {
+          const details = item.querySelector('.role-details');
+          const isOpen = details.classList.contains('open');
+
+          // Close all other open cards
+          document.querySelectorAll('.role-details.open').forEach(d => {
+            if (d.closest('.role-item') !== item) {
+              collapseRole(d.closest('.role-item'));
+            }
+          });
+
+          if (isOpen) {
             collapseRole(item);
+          } else {
+            expandRole(item);
           }
         });
-      }, {
-        threshold: 0.2,
-        rootMargin: '0px 0px -60px 0px'
-      });
-
-      roleItems.forEach(item => {
-        roleObserver.observe(item);
       });
     }
 
