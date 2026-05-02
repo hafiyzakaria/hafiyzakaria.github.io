@@ -1028,39 +1028,41 @@
       }
     });
 
-    // Auto-expand role items on scroll
-    const roleItems = document.querySelectorAll('.role-item');
-    const roleObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const item = entry.target;
-          const details = item.querySelector('.role-details');
-          const bullets = details.querySelectorAll('li');
+    // Auto-expand role items on scroll (touch devices only)
+    if (!window.matchMedia('(hover: hover)').matches) {
+      const roleItems = document.querySelectorAll('.role-item');
+      const roleObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const item = entry.target;
+            const details = item.querySelector('.role-details');
+            const bullets = details.querySelectorAll('li');
 
-          // Expand
-          item.classList.add('open');
-          details.classList.add('open');
+            // Expand
+            item.classList.add('open');
+            details.classList.add('open');
 
-          // Stagger bullet reveal
-          bullets.forEach((li, i) => {
-            li.classList.remove('bullet-visible');
-            void li.offsetWidth;
-            setTimeout(() => {
-              li.classList.add('bullet-visible');
-            }, i * 180);
-          });
+            // Stagger bullet reveal
+            bullets.forEach((li, i) => {
+              li.classList.remove('bullet-visible');
+              void li.offsetWidth;
+              setTimeout(() => {
+                li.classList.add('bullet-visible');
+              }, i * 180);
+            });
 
-          roleObserver.unobserve(item);
-        }
+            roleObserver.unobserve(item);
+          }
+        });
+      }, {
+        threshold: 0.2,
+        rootMargin: '0px 0px -60px 0px'
       });
-    }, {
-      threshold: 0.2,
-      rootMargin: '0px 0px -60px 0px'
-    });
 
-    roleItems.forEach(item => {
-      roleObserver.observe(item);
-    });
+      roleItems.forEach(item => {
+        roleObserver.observe(item);
+      });
+    }
 
     // Section reveal
     const revealElements = document.querySelectorAll('.reveal');
