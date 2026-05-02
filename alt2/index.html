@@ -342,17 +342,51 @@
     }
 
     .role-item {
-      padding: var(--space-md) 0;
+      padding: var(--space-md);
       border-bottom: 1px solid transparent;
-      transition: all 0.2s ease;
+      border-radius: var(--radius-md);
+      border: 1px solid transparent;
+      transition: all 0.3s ease;
+      position: relative;
+      margin: 0 calc(-1 * var(--space-md));
     }
 
     .role-item:not(:last-child) {
-      border-bottom: 1px solid var(--color-border);
+      margin-bottom: 2px;
     }
 
     .role-item:last-child {
-      padding-bottom: 0;
+      padding-bottom: var(--space-md);
+    }
+
+    .role-item:hover {
+      border-color: var(--color-accent);
+      background: var(--color-surface-alt);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .role-item::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--color-accent), var(--color-accent-hover));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+
+    .role-item:hover::after {
+      transform: scaleX(1);
+    }
+
+    /* On touch devices, show accent bar on tap/active */
+    @media (hover: none) {
+      .role-item:active::after {
+        transform: scaleX(1);
+      }
     }
 
     .role-header {
